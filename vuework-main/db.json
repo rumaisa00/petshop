@@ -1,0 +1,27 @@
+{
+  "pets": [
+    { "id": "p1", "name": "Bella", "type": "Dog", "age": 3, "price": 300, "status": "available", "quantity": 1 },
+    { "id": "p2", "name": "Milo", "type": "Cat", "age": 2, "price": 150, "status": "available", "quantity": 2 }
+  ],
+  "foods": [
+    { "id": "f1", "name": "Dog Food", "brand": "Pedigree", "type": "Dry", "price": 20, "quantity": 50 },
+    { "id": "f2", "name": "Cat Food", "brand": "Whiskas", "type": "Wet", "price": 15, "quantity": 40 }
+  ],
+  "supplies": [
+    { "id": "s1", "name": "Leash", "category": "Accessory", "price": 10, "quantity": 30 },
+    { "id": "s2", "name": "Water Bowl", "category": "Feeding", "price": 8, "quantity": 25 }
+  ],
+  "orders": [
+    { 
+      "id": "o1", 
+      "customerId": "c1", 
+      "status": "pending", 
+      "totalPrice": 320, 
+      "createdAt": "2025-11-21T18:00:00Z", 
+      "items": [
+        { "productId": "p1", "type": "pet", "quantity": 1, "price": 300 },
+        { "productId": "f1", "type": "food", "quantity": 1, "price": 20 }
+      ]
+    }
+  ]
+}

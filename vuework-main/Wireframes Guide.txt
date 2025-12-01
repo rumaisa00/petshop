@@ -1,0 +1,136 @@
+# VueWork Wireframes Guide
+
+Create these **5 wireframes** for Milestone 1. You can use paper, Figma, Excalidraw, or any drawing tool.
+
+## 1. Home Page (Dashboard)
+**Elements to include:**
+- Header with logo and navigation (Home, Projects, Calendar, Admin)
+- Hero section with welcome message
+- Call-to-action buttons ("View Projects", "See Calendar")
+- Feature cards grid (4 cards showing key features)
+- Statistics section (projects count, tasks completed, team members)
+- Footer
+
+**Layout:** Center-aligned hero, grid layout for features
+
+---
+
+## 2. Projects List Page
+**Elements to include:**
+- Page title "Projects"
+- Search bar for filtering projects
+- "+ New Project" button (top right)
+- Grid of project cards, each showing:
+  - Project name
+  - Description (short)
+  - Status badge (Active/Completed/Archived)
+  - Task count
+  - Member count
+- Empty state message if no projects
+
+**Layout:** Search at top, grid layout for project cards (3 columns on desktop, 1 on mobile)
+
+---
+
+## 3. Kanban Board Page
+**Elements to include:**
+- Project name as title
+- Project description below title
+- "+ Add Task" button (top right)
+- Three columns side-by-side:
+  - **To Do** (blue header)
+  - **In Progress** (orange header)
+  - **Done** (green header)
+- Each column shows:
+  - Column title with emoji
+  - Task count badge
+  - Task cards (with title, assignee avatar, due date, labels)
+- Empty state in columns with no tasks
+
+**Layout:** 3-column layout (stacked vertically on mobile)
+
+---
+
+## 4. Task Detail Modal/Page
+**Elements to include:**
+- Task title (editable)
+- Status dropdown (To Do / In Progress / Done)
+- Description text area
+- Assignee selector
+- Due date picker
+- Labels/tags
+- Comments section:
+  - List of existing comments (avatar, name, timestamp, text)
+  - Add comment input box
+- "Save" and "Delete" buttons
+
+**Layout:** Modal overlay or full page with form layout
+
+---
+
+## 5. Calendar View Page
+**Elements to include:**
+- Page title "Calendar"
+- View toggle buttons (Month / Week)
+- Navigation arrows (← Previous | Next →)
+- Calendar grid showing:
+  - Days of the week
+  - Date numbers
+  - Task indicators on dates (colored dots or small cards)
+- Legend showing color codes for different projects
+- Sidebar showing tasks for selected date
+
+**Layout:** Calendar grid taking most of space, sidebar on right
+
+---
+
+## Tips for Creating Wireframes
+
+### Low-Fidelity Means:
+- Simple boxes and lines (no colors needed, grayscale is fine)
+- Basic shapes for buttons and inputs
+- Placeholder text (Lorem ipsum or "Sample Text")
+- Icons can be simple symbols or emojis
+- No need for perfect alignment
+
+### What to Focus On:
+- **Layout structure** - where things are positioned
+- **Hierarchy** - what's most important on each page
+- **User flow** - how users navigate between pages
+- **Key interactions** - buttons, forms, clickable elements
+
+### Tools You Can Use:
+1. **Paper & Pencil** - Fastest! Take photos and upload
+2. **Excalidraw** (excalidraw.com) - Free, web-based, simple
+3. **Figma** (figma.com) - Professional, free tier available
+4. **Balsamiq** - Purpose-built for wireframes
+5. **Draw.io** (app.diagrams.net) - Free, diagram tool
+
+### Save Your Wireframes:
+- Create a folder: `docs/wireframes/`
+- Save each wireframe as an image:
+  - `01-home-page.png`
+  - `02-projects-list.png`
+  - `03-kanban-board.png`
+  - `04-task-detail.png`
+  - `05-calendar-view.png`
+
+---
+
+## Example Wireframe Structure
+
+```
+┌─────────────────────────────────────────┐
+│  HEADER: [Logo] [Nav Links] [User]     │
+├─────────────────────────────────────────┤
+│                                         │
+│        Main Content Area                │
+│                                         │
+│   [Components, Cards, Forms, etc.]      │
+│                                         │
+├─────────────────────────────────────────┤
+│  FOOTER: [Copyright] [Links]           │
+└─────────────────────────────────────────┘
+```
+
+**Remember:** Low-fidelity wireframes are meant to be quick and rough! Don't spend more than 1-2 hours on all 5 wireframes combined.

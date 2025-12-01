@@ -1,0 +1,53 @@
+<div v-if="product.rating" class="flex items-center gap-1 mb-4">
+        <div class="flex">
+          <svg 
+            v-for="star in 5" 
+            :key="star"
+            class="w-4 h-4"
+            :class="star <= product.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'"
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <span class="text-sm text-gray-600">({{ product.reviewCount || 0 }})</span>
+      </div>
+      
+      <!-- Action Button -->
+      <button
+        @click="$emit('add-to-cart', product)"
+        :disabled="!product.inStock"
+        class="w-full py-3 rounded-xl font-semibold transition-all duration-200"
+        :class="product.inStock
+          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg transform hover:scale-105'
+          : 'bg-gray-200 text-gray-500 cursor-not-allowed'"
+      >
+        {{ product.inStock ? 'Add to Cart' : 'Out of Stock' }}
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue';
+
+const props = defineProps({
+  product: {
+    type: Object,
+    required: true
+  },
+  isFavorite: {
+    type: Boolean,
+    default: false
+  }
+});
+
+defineEmits(['add-to-cart', 'toggle-favorite']);
+
+const finalPrice = computed(() => {
+  if (props.product.discount) {
+    return (props.product.price * (1 - props.product.discount / 100)).toFixed(2);
+  }
+  return props.product.price;
+});
+</script>

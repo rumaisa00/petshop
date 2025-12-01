@@ -1,0 +1,100 @@
+import axios, { AxiosError, AxiosInstance } from 'axios';
+import type { ApiFail } from '@/types/http';
+
+// If you keep tokens in Pinia, you can import the store here.
+// import { useAuthStore } from '@/stores/auth';
+
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
+export const http: AxiosInstance = axios.create({
+  baseURL,
+  timeout: 15000,
+  withCredentials: false,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+});
+
+// Attach token
+http.interceptors.request.use((config) => {
+  // const auth = useAuthStore(); // only works inside app runtime
+  const token = localStorage.getItem('access_token'); // simple fallback
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+// Normalize errors
+function toApiFail(error: AxiosError): ApiFail {
+  const status = error.response?.status ?? 0;
+
+  // Try to read server error shape
+  const data: any = error.response?.data ?? {};
+  const message =
+    data?.message ||
+    data?.error ||
+    error.message ||
+    'Unexpected error. Please try again.';
+
+  // Optional field-level errors: { details: { title: ['Required'] } }
+  const details =
+    typeof data?.details === 'object' ? (data.details as Record<string, string[]>) : undefined;
+
+  const code = typeof data?.code === 'string' ? data.code : undefined;
+
+  return { ok: false, status, code, message, details };
+}
+
+let isRefreshing = false;
+let refreshQueue: Array<() => void> = [];
+
+async function refreshToken() {
+  // Avoid multiple refresh calls
+  if (isRefreshing) {
+    await new Promise<void>((resolve) => refreshQueue.push(resolve));
+    return;
+  }
+  isRefreshing = true;
+  try {
+    const refresh = localStorage.getItem('refresh_token');
+    if (!refresh) throw new Error('No refresh token');
+    // Call your refresh endpoint
+    const res = await axios.post(`${baseURL}/auth/refresh`, { refreshToken: refresh });
+    const newAccess = res.data?.accessToken;
+    if (!newAccess) throw new Error('No access token in refresh response');
+    localStorage.setItem('access_token', newAccess);
+  } finally {
+    isRefreshing = false;
+    // flush waiters
+    refreshQueue.forEach((fn) => fn());
+    refreshQueue = [];
+  }
+}
+
+http.interceptors.response.use(
+  (r) => r,
+  async (error: AxiosError) => {
+    const status = error.response?.status;
+
+    // Optional: auto-refresh once on 401
+    if (status === 401) {
+      try {
+        await refreshToken();
+        // retry original request with new token
+        const cfg = error.config!;
+        const token = localStorage.getItem('access_token');
+        if (token) {
+          cfg.headers = cfg.headers ?? {};
+          cfg.headers.Authorization = `Bearer ${token}`;
+        }
+        return http(cfg);
+      } catch {
+        // fall through to normalized error
+      }
+    }
+
+    // Map to uniform failure
+    return Promise.reject(toApiFail(error));
+  }
+);
+
